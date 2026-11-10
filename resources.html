@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resources · Recruiting HQ</title>
+<meta name="theme-color" content="#0d9488">
+<style>
+:root{--bg:#f6f8fa;--surface:#fff;--ink:#101822;--muted:#6b7889;--faint:#9aa6b4;--line:#e3e9f0;--accent:#0d9488;--accent-soft:#d6f0ec;--ref:#8b95a3;--ref-soft:#eef1f5;--shadow:0 1px 2px rgba(16,24,34,.05),0 6px 22px rgba(16,24,34,.07);--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#0d131b;--surface:#141c26;--ink:#e9eef4;--muted:#8593a3;--faint:#5d6b7b;--line:#26313e;--accent:#2dd4bf;--accent-soft:#123330;--ref:#9aa6b4;--ref-soft:#222c38;--shadow:0 1px 2px rgba(0,0,0,.35),0 10px 30px rgba(0,0,0,.35)}}
+*{box-sizing:border-box}body{margin:0}
+.wrap{font-family:var(--sans);color:var(--ink);background:var(--bg);min-height:100vh;max-width:720px;margin:0 auto;padding:44px 20px 90px;-webkit-font-smoothing:antialiased}
+a.back{font-family:var(--mono);font-size:12px;color:var(--muted);text-decoration:none}
+a.back:hover{color:var(--ink)}
+h1{font-size:26px;font-weight:850;letter-spacing:-.03em;margin:14px 0 0}
+.sub{font-family:var(--mono);font-size:13px;color:var(--muted);margin:8px 0 0;line-height:1.6}
+.source-group{margin-top:34px}
+.source-head{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:12px}
+.entry{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);margin-bottom:12px}
+.entry-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tag{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.02em;padding:2px 8px;border-radius:99px}
+.tag.link{color:var(--accent);background:var(--accent-soft)}
+.tag.reference{color:var(--ref);background:var(--ref-soft)}
+.date{font-family:var(--mono);font-size:11px;color:var(--faint);margin-left:auto}
+.title{font-size:15.5px;font-weight:700;margin:9px 0 0}
+.title a{color:inherit;text-decoration:none}
+.title a:hover{text-decoration:underline;text-decoration-color:var(--accent)}
+.desc{font-size:13px;color:var(--muted);line-height:1.55;margin:6px 0 0}
+footer{margin-top:34px;font-size:12px;color:var(--faint);line-height:1.6}
+.logform{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow);margin-top:24px}
+.logform h2{font-size:14px;margin:0 0 6px}
+.logform .sub{margin:0 0 12px}
+.logform input,.logform textarea{width:100%;font:13px/1.5 var(--sans);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 11px;margin-bottom:8px;box-sizing:border-box}
+.logform textarea{resize:vertical;min-height:52px}
+.logform button{font:700 13px var(--sans);color:#fff;background:var(--accent);border:none;border-radius:8px;padding:10px 16px;cursor:pointer}
+.logform button:disabled{opacity:.6;cursor:default}
+#log-status{font-family:var(--mono);font-size:12px;margin-top:8px;min-height:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">&larr; Recruiting HQ</a>
+  <h1>Resources</h1>
+  <p class="sub">Links + notes manually pulled from outside sources (currently: Instagram @zero2sudo). Stories are 24h-ephemeral, so this is a snapshot, not a live feed &mdash; re-check the source and append to resources.json when something new is worth keeping.</p>
+  <div id="groups"></div>
+
+  <div class="logform">
+    <h2>Log a new note</h2>
+    <p class="sub">Check @zero2sudo's Stories/Highlights yourself, then log what you found. Needs Conscience running locally (localhost:4590) &mdash; if it's not reachable, log it from Conscience's Connections tab instead, or run <code>python3 recruiting/add_intel.py</code> in a terminal.</p>
+    <input type="text" id="log-title" placeholder="Title (short)">
+    <textarea id="log-desc" placeholder="Description — what it says, who/what it's about"></textarea>
+    <input type="text" id="log-url" placeholder="URL (leave blank if it's a screenshot, no link)">
+    <input type="text" id="log-highlight" placeholder="Story or Highlight name (defaults to &quot;Story&quot;)">
+    <button id="log-submit" type="button">Log entry</button>
+    <div id="log-status"></div>
+  </div>
+
+  <footer>Sourced by hand, not scraped automatically. Verify anything time-sensitive (deadlines, application windows) against the original before acting on it.</footer>
+</div>
+<script>
+fetch('resources.json').then(r => r.json()).then(data => {
+  const bySource = {};
+  for (const e of data.entries) {
+    (bySource[e.source] ||= []).push(e);
+  }
+  const groups = document.getElementById('groups');
+  for (const [source, entries] of Object.entries(bySource)) {
+    const group = document.createElement('div');
+    group.className = 'source-group';
+    const head = document.createElement('div');
+    head.className = 'source-head';
+    head.textContent = source;
+    group.appendChild(head);
+    for (const e of entries.sort((a, b) => b.dateAdded.localeCompare(a.dateAdded))) {
+      const div = document.createElement('div');
+      div.className = 'entry';
+      const titleHtml = e.url
+        ? `<a href="${e.url}" target="_blank" rel="noopener">${e.title}</a>`
+        : e.title;
+      div.innerHTML = `
+        <div class="entry-top">
+          <span class="tag ${e.type}">${e.type === 'link' ? 'link' : 'reference'}</span>
+          <span class="date">${e.dateAdded}</span>
+        </div>
+        <div class="title">${titleHtml}</div>
+        <p class="desc">${e.description}</p>
+      `;
+      group.appendChild(div);
+    }
+    groups.appendChild(group);
+  }
+});
+
+document.getElementById('log-submit').addEventListener('click', async () => {
+  const btn = document.getElementById('log-submit');
+  const status = document.getElementById('log-status');
+  const title = document.getElementById('log-title').value.trim();
+  const description = document.getElementById('log-desc').value.trim();
+  const url = document.getElementById('log-url').value.trim();
+  const highlight = document.getElementById('log-highlight').value.trim();
+  if (!title || !description) {
+    status.textContent = 'Title and description are both required.';
+    status.style.color = '#c23b3b';
+    return;
+  }
+  btn.disabled = true;
+  status.style.color = '';
+  status.textContent = 'Saving to Conscience...';
+  try {
+    const res = await fetch('http://localhost:4590/api/intel/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title, description, url, highlight, type: url ? 'link' : 'reference' }),
+    });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error || 'Unknown error');
+    status.style.color = '#0d9488';
+    status.textContent = `Logged as ${data.entry.id} (${data.entry.dateAdded}). Reload this page to see it.`;
+    document.getElementById('log-title').value = '';
+    document.getElementById('log-desc').value = '';
+    document.getElementById('log-url').value = '';
+    document.getElementById('log-highlight').value = '';
+  } catch (e) {
+    status.style.color = '#c23b3b';
+    status.textContent = "Couldn't reach Conscience on localhost:4590 (is it running?). Log it from Conscience's Connections tab instead, or run: python3 recruiting/add_intel.py";
+  } finally {
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Networking HQ — Coffee Chats & Referrals</title>
+<meta name="theme-color" content="#d97706">
+<style>
+:root{--bg:#f7f6f4;--surface:#fff;--surface-2:#f0ece6;--ink:#12100d;--muted:#6f6558;--faint:#a99e8e;--line:#e7e1d8;--line-2:#d8d0c4;--accent:#d97706;--accent-2:#b45309;--accent-soft:#fbe8cf;--applied:#3b82f6;--applied-bg:#e2ecfd;--chat:#0d9488;--chat-bg:#d3efec;--ref:#16a34a;--ref-bg:#dcf3e2;--warm:#d97706;--warm-bg:#fbe8cf;--cold:#8b95a3;--cold-bg:#eef1f5;--shadow:0 1px 2px rgba(18,16,13,.04),0 4px 16px rgba(18,16,13,.06);--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--r:13px}
+@media (prefers-color-scheme:dark){:root{--bg:#12100d;--surface:#1c1915;--surface-2:#26221c;--ink:#f0ebe3;--muted:#a99e8e;--faint:#6f6558;--line:#302a22;--line-2:#3e372d;--accent:#f59e0b;--accent-2:#d97706;--accent-soft:#3a2a12;--applied:#5b9bf8;--applied-bg:#182a44;--chat:#2dd4bf;--chat-bg:#123330;--ref:#3fca6a;--ref-bg:#16311f;--warm:#f59e0b;--warm-bg:#3a2a12;--cold:#9aa6b4;--cold-bg:#26221c;--shadow:0 1px 2px rgba(0,0,0,.35),0 8px 26px rgba(0,0,0,.3)}}
+*{box-sizing:border-box}body{margin:0}
+.wrap{font-family:var(--sans);color:var(--ink);background:var(--bg);min-height:100vh;max-width:940px;margin:0 auto;padding:24px 20px 80px;-webkit-font-smoothing:antialiased}
+.brand{display:flex;align-items:center;gap:11px}.dot{width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+h1{font-size:25px;letter-spacing:-.02em;font-weight:800;margin:0}
+.status{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin:9px 0 0}.status b{color:var(--accent-2)}
+nav.tabs{display:flex;gap:6px;margin:20px 0 4px;flex-wrap:wrap;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:20}
+nav.tabs button{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--muted);background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:8px 14px;cursor:pointer}
+nav.tabs button.on{color:#fff;background:var(--accent);border-color:var(--accent)}
+nav.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section.view{display:none;margin-top:12px}section.view.on{display:block}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;margin-bottom:14px}
+.phead{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:15px 17px 13px;border-bottom:1px solid var(--line)}
+.phead h2{font-size:12px;text-transform:uppercase;letter-spacing:.13em;font-weight:700;margin:0}.phead .hint{font-family:var(--mono);font-size:10.5px;color:var(--faint)}
+.funnel{display:flex;flex-wrap:wrap;gap:8px;padding:14px 17px;border-bottom:1px solid var(--line)}
+.fstat{flex:1;min-width:80px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:9px 11px}
+.fstat .fn{font-family:var(--mono);font-size:20px;font-weight:700;line-height:1}.fstat .fl{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:5px;font-weight:600}
+.addform{display:grid;grid-template-columns:1.3fr 1.2fr 1fr .9fr auto;gap:8px;padding:12px 17px;border-bottom:1px solid var(--line)}
+.addform input,.addform select{font-family:var(--sans);font-size:13px;color:var(--ink);background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:8px 10px;min-width:0}
+.addform input:focus,.addform select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.btn{font-family:var(--sans);font-size:13px;font-weight:650;color:#fff;background:var(--accent);border:none;border-radius:8px;padding:8px 14px;cursor:pointer;white-space:nowrap}.btn:hover{background:var(--accent-2)}
+.rows{list-style:none;margin:0;padding:4px 8px 8px}
+.crow{display:flex;align-items:center;gap:10px;padding:11px 9px;border-top:1px solid var(--line);flex-wrap:wrap}.crow:first-child{border-top:none}
+.cname{font-size:14.5px;font-weight:650;min-width:120px}.cco{font-size:12px;color:var(--muted);flex:1;min-width:90px}
+.pill{font-size:11px;font-weight:650;padding:4px 10px;border-radius:999px;cursor:pointer;border:none;font-family:var(--sans);white-space:nowrap}
+.src{font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;letter-spacing:.02em}
+.src-alum{color:var(--ref);background:var(--ref-bg)}.src-2nd{color:var(--chat);background:var(--chat-bg)}.src-teammate{color:var(--applied);background:var(--applied-bg)}.src-recruiter{color:var(--warm);background:var(--warm-bg)}.src-cold{color:var(--cold);background:var(--cold-bg)}
+.st-identified{color:var(--cold);background:var(--cold-bg)}.st-messaged{color:var(--warm);background:var(--warm-bg)}.st-replied{color:var(--applied);background:var(--applied-bg)}.st-chatted{color:var(--chat);background:var(--chat-bg)}.st-referralasked{color:var(--warm);background:var(--warm-bg)}.st-referred{color:var(--ref);background:var(--ref-bg)}.st-applied{color:var(--applied);background:var(--applied-bg)}
+.next{font-family:var(--mono);font-size:11px;color:var(--faint)}
+.x{background:none;border:none;color:var(--faint);cursor:pointer;font-size:16px;padding:2px 6px}
+.empty{padding:20px 17px;color:var(--muted);font-size:13.5px;text-align:center}
+.tokrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;padding:12px 17px;border-bottom:1px solid var(--line)}
+.tokrow label{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;display:block;margin-bottom:3px}
+.tokrow input{width:100%;font-family:var(--sans);font-size:13px;color:var(--ink);background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:7px 9px}
+.tmpl{padding:10px 17px 4px}
+.tcard{border:1px solid var(--line);border-radius:11px;padding:12px 14px;margin:10px 0;background:var(--surface-2)}
+.tcard .tt{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.tcard .tn{font-size:13px;font-weight:700}.tcard .tstage{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--accent-2);background:var(--accent-soft);padding:2px 7px;border-radius:5px}
+.tcard .tbody{font-size:13px;line-height:1.55;white-space:pre-wrap;color:var(--ink);font-family:var(--sans);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.tcard .thy{font-size:11.5px;color:var(--muted);margin:6px 0 0}
+.copy{font-size:11px;font-weight:650;color:var(--accent-2);background:var(--accent-soft);border:none;border-radius:7px;padding:5px 11px;cursor:pointer}.copy:hover{filter:brightness(.96)}
+.book{padding:6px 20px 26px;line-height:1.62;font-size:15px}
+.book h2{font-size:19px;margin:24px 0 8px;letter-spacing:-.01em}.book h3{font-size:15px;margin:18px 0 6px}
+.book p{margin:8px 0}.book ul{margin:8px 0;padding-left:22px}.book li{margin:5px 0}.book b{color:var(--ink)}
+.book .big{font-size:15px;background:var(--accent-soft);border-left:3px solid var(--accent);padding:11px 14px;border-radius:0 8px 8px 0;margin:12px 0}
+.book code{font-family:var(--mono);font-size:.88em;background:var(--surface-2);padding:1px 5px;border-radius:5px}
+.step{display:flex;gap:12px;padding:11px 0;border-top:1px solid var(--line)}.step:first-child{border-top:none}
+.stepn{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-family:var(--mono);font-size:12px;font-weight:700}
+.stept{font-size:14px}.stept b{display:block;margin-bottom:2px}.stept span{color:var(--muted);font-size:13px}
+footer{margin-top:22px;padding:0 4px;font-size:11.5px;color:var(--faint);line-height:1.5}
+@media(max-width:640px){.addform{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+(function(){
+var app=document.getElementById("app");
+var esc=function(s){return (s==null?"":String(s)).replace(/[&<>"]/g,function(m){return({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[m]});};
+
+// ---- stage + source config ----
+var STAGES=[["identified","Identified"],["messaged","Messaged"],["replied","Replied"],["chatted","Chatted"],["referralasked","Referral asked"],["referred","Referred ✓"],["applied","Applied w/ ref"]];
+var STAGEMAP={};STAGES.forEach(function(s){STAGEMAP[s[0]]=s[1];});
+var STAGEORDER=STAGES.map(function(s){return s[0];});
+var SOURCES=[["alum","Alum"],["2nd","2nd-deg"],["teammate","On team"],["recruiter","Recruiter"],["cold","Cold"]];
+
+// ---- templates (one per stage of the relationship) ----
+var TEMPLATES=[
+ {n:"1 · Cold connect (alum / warm)",stage:"messaged",why:"No ask. Short, specific, shared identity + a genuine hook. Goal = accept + goodwill.",
+  body:"Hi {name} — fellow Tar Heel here. I'm a CS + Business junior at UNC getting deep into product, and I've been really impressed by {company}'s work on {hook}. Would love to connect and follow what your team's building."},
+ {n:"2 · Coffee-chat request",stage:"messaged",why:"Ask for TIME and STORY, not a job. 15 min, you flex to their calendar. Low friction = high yes-rate.",
+  body:"Thanks for connecting, {name}! I'm exploring PM and would love to hear how you got into product at {company}. Could I grab 15 min in the next couple weeks? Totally happy to work around your schedule — even a quick call helps a ton."},
+ {n:"3 · Post-chat thank-you",stage:"chatted",why:"Send within 24h. Reference ONE specific thing → you become memorable, not another networker.",
+  body:"Really appreciated the time today, {name} — your point about {hook} stuck with me and reframed how I'm thinking about it. I'll {follow_action}. Thanks again for being so generous with your advice."},
+ {n:"4 · The referral ask",stage:"referralasked",why:"Only after rapport. Make it EASY: name the role, attach resume + a 2-line blurb, give them an easy out.",
+  body:"Hi {name} — hope you're well! I really enjoyed learning about {company}, and I noticed the {role} role just opened. Would you feel comfortable referring me? Completely understand if not. To make it easy, I've attached my resume and a short blurb you can paste — and I'm glad to send anything else that'd help."},
+ {n:"5 · Gentle follow-up",stage:"messaged",why:"One nudge after 5–7 days of silence. Add a tiny new reason to reply. Never guilt-trip.",
+  body:"Hi {name} — floating this back up in case it slipped by. No pressure at all; I know things get busy. Still would genuinely love 15 min whenever it's convenient. Either way, appreciate you!"},
+ {n:"6 · Recruiter cold outreach",stage:"messaged",why:"Recruiters skim. Lead with fit + the specific role + one proof point. Make their job trivial.",
+  body:"Hi {name}, I'm applying to the {role} at {company}. Quick fit: I've shipped 0→1 products (founded a venture, PM intern at a software co) with real user + revenue metrics. Is this role still active, and is there anything I can send to help move my application forward? Resume attached."},
+ {n:"7 · Blurb to hand your referrer",stage:"referralasked",why:"Never make them write it. Give a paste-ready 2-liner so referring costs them 30 seconds.",
+  body:"Blurb for {name} to paste:\n\n\"I'm referring Neal Parekh for the {role}. Neal's a CS + Business junior at UNC who's founded a 0→1 product with real traction and interned as a software PM. Sharp, ships fast, strong product instincts — worth a look.\" (resume attached)"}
+];
+
+// ---- coffee-chat question bank ----
+var QBANK=[
+ "How did you break into PM — and what would you do differently starting today?",
+ "What separates a great PM from a good one on your team specifically?",
+ "What does the first 90 days of an intern/APM here actually look like?",
+ "What's a product decision you made recently that you're proud of — and how'd you make the call?",
+ "What do you wish more candidates understood about {company}'s product before applying?",
+ "Where do you think {company}'s product is heading in the next year?",
+ "What skills are you personally trying to level up right now?",
+ "Who else would you recommend I talk to to understand this space?  ← always ask; compounds your network",
+ "Is there anything I can do to be helpful to you?  ← reciprocity; most people never ask"
+];
+
+var app_html=
+ '<div class="brand"><span class="dot"></span><h1>Networking HQ</h1></div>'
+ +'<p class="status">Coffee chats → referrals → interviews · <b>referrals convert several× cold apps</b> · relationship-first</p>'
+ +'<nav class="tabs" id="tabs">'
+ + btn("pipeline","Pipeline") + btn("templates","Templates") + btn("playbook","Playbook") + btn("questions","Chat Qs") + btn("sourcing","Find people")
+ +'</nav>'
+ + view("pipeline", pipelineShell())
+ + view("templates", templatesShell())
+ + view("playbook", playbookHtml())
+ + view("questions", questionsHtml())
+ + view("sourcing", sourcingHtml())
+ +'<footer>Saved locally on this device (no account, no server). Pairs with your PM/SWE Recruiting HQ and the master resume. The ask always comes <b>after</b> the chat — the stages enforce it.</footer>';
+app.innerHTML=app_html;
+
+function btn(id,l){return '<button data-tab="'+id+'">'+l+'</button>';}
+function view(id,inner){return '<section class="view" data-view="'+id+'">'+inner+'</section>';}
+
+function pipelineShell(){
+ return '<div class="panel"><div class="phead"><h2>Contact Pipeline</h2><span class="hint">advance the stage as the relationship moves</span></div>'
+ +'<div class="funnel" id="funnel"></div>'
+ +'<div class="addform">'
+ +'<input id="f-name" placeholder="Name" autocomplete="off"/>'
+ +'<input id="f-co" placeholder="Company" autocomplete="off"/>'
+ +'<input id="f-role" placeholder="Role / team" autocomplete="off"/>'
+ +'<select id="f-src">'+SOURCES.map(function(s){return '<option value="'+s[0]+'">'+s[1]+'</option>';}).join("")+'</select>'
+ +'<button class="btn" id="add">Add</button>'
+ +'</div>'
+ +'<ul class="rows" id="rows"></ul></div>';
+}
+function templatesShell(){
+ return '<div class="panel"><div class="phead"><h2>Message Generator</h2><span class="hint">fill once → every template personalizes</span></div>'
+ +'<div class="tokrow">'
+ +tok("t-name","Their name","Priya")
+ +tok("t-company","Company","Figma")
+ +tok("t-role","Role","Product Manager Intern")
+ +tok("t-hook","Hook / topic","your work on Dev Mode")
+ +tok("t-follow","Follow action (opt.)","send you that article on X")
+ +'</div><div class="tmpl" id="tmpl"></div></div>';
+}
+function tok(id,label,ph){return '<div><label>'+label+'</label><input id="'+id+'" placeholder="'+ph+'" autocomplete="off"/></div>';}
+
+// ---- pipeline logic ----
+var KEY="net-pipeline-v1";
+var data=[];try{var st=localStorage.getItem(KEY);data=st?JSON.parse(st):[];}catch(e){data=[];}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}}
+
+function renderPipeline(){
+ var fEl=app.querySelector("#funnel"),rEl=app.querySelector("#rows");
+ if(!fEl)return;
+ var c={};STAGEORDER.forEach(function(s){c[s]=0;});data.forEach(function(d){if(c[d.stage]!=null)c[d.stage]++;});
+ var referred=c.referred+c.applied;
+ fEl.innerHTML=[["messaged","Reached"],["chatted","Chatted"],["referred","Referred"],["_total","Contacts"]].map(function(f){
+   var v=f[0]==="_total"?data.length:(f[0]==="referred"?referred:sumFrom(c,f[0]));
+   return '<div class="fstat"><div class="fn">'+v+'</div><div class="fl">'+f[1]+'</div></div>';
+ }).join("");
+ if(!data.length){rEl.innerHTML='<li class="empty">Add the first person you want to reach. Alumni at your target companies are the highest-yield start.</li>';return;}
+ rEl.innerHTML="";
+ data.forEach(function(d,i){
+   var li=document.createElement("li");li.className="crow";
+   var srcLabel=(SOURCES.filter(function(s){return s[0]===d.src;})[0]||["cold","Cold"])[1];
+   li.innerHTML='<span class="cname">'+esc(d.name)+'</span>'
+     +'<span class="cco">'+esc(d.co)+(d.role?' · '+esc(d.role):'')+'</span>'
+     +'<span class="src src-'+d.src+'">'+srcLabel+'</span>'
+     +'<button class="pill st-'+d.stage+'" data-i="'+i+'" data-act="stage" title="advance stage">'+STAGEMAP[d.stage]+'</button>'
+     +'<button class="x" data-i="'+i+'" data-act="del" title="remove">×</button>';
+   rEl.appendChild(li);
+ });
+}
+function sumFrom(c,stage){ // count everyone AT or PAST this stage
+ var idx=STAGEORDER.indexOf(stage),t=0;
+ STAGEORDER.forEach(function(s,j){if(j>=idx)t+=c[s];});return t;
+}
+function bindPipeline(){
+ var add=app.querySelector("#add");
+ add.addEventListener("click",function(){
+   var name=val("f-name");if(!name)return;
+   data.unshift({name:name,co:val("f-co"),role:val("f-role"),src:app.querySelector("#f-src").value,stage:"identified"});
+   ["f-name","f-co","f-role"].forEach(function(id){app.querySelector("#"+id).value="";});
+   save();renderPipeline();app.querySelector("#f-name").focus();
+ });
+ app.querySelector("#f-name").addEventListener("keydown",function(e){if(e.key==="Enter")add.click();});
+ app.querySelector("#rows").addEventListener("click",function(e){
+   var b=e.target.closest("button[data-act]");if(!b)return;var i=+b.dataset.i;
+   if(b.dataset.act==="stage"){var d=data[i];d.stage=STAGEORDER[(STAGEORDER.indexOf(d.stage)+1)%STAGEORDER.length];}
+   else if(b.dataset.act==="del"){data.splice(i,1);}
+   save();renderPipeline();
+ });
+}
+function val(id){return app.querySelector("#"+id).value.trim();}
+
+// ---- templates logic ----
+function fill(s,t){
+ return s.replace(/\{(\w+)\}/g,function(m,k){
+   var map={name:t.name||"there",company:t.company||"your company",role:t.role||"the role",hook:t.hook||"[their work / a specific project]",follow_action:t.follow||"follow up with anything useful I come across"};
+   return map[k]!=null?map[k]:m;
+ });
+}
+function renderTemplates(){
+ var box=app.querySelector("#tmpl");if(!box)return;
+ var t={name:val("t-name"),company:val("t-company"),role:val("t-role"),hook:val("t-hook"),follow:val("t-follow")};
+ box.innerHTML=TEMPLATES.map(function(tp,i){
+   var msg=fill(tp.body,t);
+   return '<div class="tcard"><div class="tt"><span class="tn">'+esc(tp.n)+'</span>'
+     +'<span class="tstage">'+STAGEMAP[tp.stage]+'</span></div>'
+     +'<div class="tbody" id="tb-'+i+'">'+esc(msg)+'</div>'
+     +'<p class="thy">'+esc(tp.why)+'</p>'
+     +'<button class="copy" data-i="'+i+'">Copy</button></div>';
+ }).join("");
+}
+function bindTemplates(){
+ ["t-name","t-company","t-role","t-hook","t-follow"].forEach(function(id){
+   app.querySelector("#"+id).addEventListener("input",renderTemplates);
+ });
+ app.querySelector("#tmpl").addEventListener("click",function(e){
+   var b=e.target.closest(".copy");if(!b)return;var i=+b.dataset.i;
+   var txt=app.querySelector("#tb-"+i).textContent;
+   navigator.clipboard&&navigator.clipboard.writeText(txt);
+   var old=b.textContent;b.textContent="Copied ✓";setTimeout(function(){b.textContent=old;},1200);
+ });
+}
+
+function questionsHtml(){
+ return '<div class="panel"><div class="phead"><h2>Coffee-Chat Question Bank</h2><span class="hint">2–3 great Qs > 10 shallow ones</span></div>'
+ +'<div class="book"><p class="big"><b>Run of a 15-min chat:</b> 2 min warm rapport → 8–10 min their story + your best 2–3 questions → 2 min "who else / how can I help" → 1 min clear next step. Take notes. Never open with the ask.</p>'
+ +'<ul>'+QBANK.map(function(q){return '<li>'+esc(q)+'</li>';}).join("")+'</ul>'
+ +'<p class="thy" style="color:var(--muted);font-size:13px">Swap <code>{company}</code> for the real name. The last two questions do the heavy lifting — they open the referral door <b>without you asking for one.</b></p></div></div>';
+}
+
+function playbookHtml(){
+ return '<div class="panel"><div class="book">'
+ +'<h2>Why this is your biggest edge</h2>'
+ +'<p class="big">Referred candidates are hired at <b>far higher rates</b> than cold applicants — referrals are a small slice of applications but a large slice of hires. For high-volume PM/SWE intern funnels, a warm intro is often the difference between the résumé pile and a first-round. <b>One good referral can outweigh 50 cold applications.</b></p>'
+ +'<h2>The relationship-first sequence</h2>'
+ +'<p>The #1 mistake is cold-asking for a referral from a stranger. Earn it first. The Pipeline tab enforces this order:</p>'
+ +step(1,"Identify","Target the right person: alum > someone on the exact team > 2nd-degree connection > recruiter. Warm > senior. Aim for 2–5 people per target company.")
+ +step(2,"Message","Short, specific, NO ask. Shared identity (Tar Heel) + a genuine hook about their work. Goal is a reply and goodwill.")
+ +step(3,"Coffee chat","Ask for 15 min and their story, not a job. Flex to their calendar. Show up curious and prepared — you researched them.")
+ +step(4,"Be memorable","Within 24h, thank them referencing ONE specific thing. Do the small thing you said you'd do. Now you're a person, not a networker.")
+ +step(5,"The ask","Only now. Name the specific role, make it trivial: attach your resume + a paste-ready blurb, and give an easy out. People WANT to help people they like.")
+ +step(6,"Follow up","One gentle nudge after 5–7 days of silence. After a referral: thank them, keep them posted, and close the loop win or lose.")
+ +'<h2>Cadence & discipline</h2>'
+ +'<ul>'
+ +'<li><b>Batch it:</b> reach out to 5 people at a time, not 50 — you need bandwidth to follow up well.</li>'
+ +'<li><b>One nudge only:</b> a single follow-up. Two is persistent; three is a pest.</li>'
+ +'<li><b>Track everything:</b> every contact goes in the Pipeline with a next step. A relationship with no next step is a dead lead.</li>'
+ +'<li><b>Give before you get:</b> share a relevant article, intro them to someone, comment on their post. Reciprocity is the whole game.</li>'
+ +'<li><b>Reconnect quarterly:</b> a network is maintained, not harvested. Check in even when you need nothing.</li>'
+ +'</ul>'
+ +'<h2>Where to find people</h2>'
+ +'<p>See the <b>Find people</b> tab. Start with UNC alumni at your target companies — highest reply rate by far.</p>'
+ +'</div></div>';
+}
+function step(n,t,s){return '<div class="step"><div class="stepn">'+n+'</div><div class="stept"><b>'+t+'</b><span>'+s+'</span></div></div>';}
+
+function sourcingHtml(){
+ return '<div class="panel"><div class="book">'
+ +'<h2>How to find the right people</h2>'
+ +'<h3>1. LinkedIn — alumni first (highest yield)</h3>'
+ +'<ul>'
+ +'<li>Company page → <b>People</b> tab → filter <b>School: University of North Carolina at Chapel Hill</b>. Shared school ~doubles reply rates.</li>'
+ +'<li>Search: <code>"Product Manager" {company} "University of North Carolina"</code> and <code>"APM" OR "Associate Product Manager" {company}</code>.</li>'
+ +'<li>Sort connections by <b>2nd-degree</b> — a mutual makes the connect note warm. Mention the mutual.</li>'
+ +'<li>Target people 1–4 years ahead of you (recent grads reply most and were recently in your seat).</li>'
+ +'</ul>'
+ +'<h3>2. UNC channels</h3>'
+ +'<ul>'
+ +'<li><b>Handshake</b> — alumni directory + who\'s recruiting from UNC.</li>'
+ +'<li><b>UNC PM Club</b> alumni (you\'re Director of Prof Dev — use the roster) and CS/business Slack/GroupMe.</li>'
+ +'<li>Professors + TAs with industry ties; the Bridge-to-BCG / innovation-lab networks.</li>'
+ +'</ul>'
+ +'<h3>3. PM communities</h3>'
+ +'<ul>'
+ +'<li>Product School, APMList / APM community Slacks, RevGenius, Lenny\'s Slack, Reforge circles.</li>'
+ +'<li>Company Discords/Slacks (esp. dev-tool + startup companies) — chat in public, DM after.</li>'
+ +'<li>Comment substantively on target PMs\' LinkedIn/X posts for a week before you DM — warm the connection.</li>'
+ +'</ul>'
+ +'<h3>4. Events</h3>'
+ +'<ul>'
+ +'<li>Company info sessions / career fairs — get the recruiter\'s name + email, then follow the sequence.</li>'
+ +'<li>Product meetups, hackathons, YC/startup events near campus or virtual.</li>'
+ +'</ul>'
+ +'<p class="big"><b>Rule of thumb:</b> 5 quality contacts per target company. With ~130 targets you don\'t need all of them — 15–20 warm relationships across your top companies will generate more interviews than 500 cold applications.</p>'
+ +'</div></div>';
+}
+
+// ---- tabs ----
+var tabs=app.querySelector("#tabs"),views=app.querySelectorAll(".view");
+function show(id){tabs.querySelectorAll("button").forEach(function(b){b.classList.toggle("on",b.dataset.tab===id);});views.forEach(function(v){v.classList.toggle("on",v.dataset.view===id);});}
+tabs.addEventListener("click",function(e){var b=e.target.closest("button");if(b)show(b.dataset.tab);});
+show("pipeline");
+bindPipeline();bindTemplates();renderPipeline();renderTemplates();
+})();
+</script>
+</body>
+</html>

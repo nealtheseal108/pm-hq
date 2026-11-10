@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neal · Recruiting HQ</title>
+<meta name="theme-color" content="#0d9488">
+<style>
+:root{--bg:#f6f8fa;--surface:#fff;--ink:#101822;--muted:#6b7889;--faint:#9aa6b4;--line:#e3e9f0;--shadow:0 1px 2px rgba(16,24,34,.05),0 6px 22px rgba(16,24,34,.07);--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#0d131b;--surface:#141c26;--ink:#e9eef4;--muted:#8593a3;--faint:#5d6b7b;--line:#26313e;--shadow:0 1px 2px rgba(0,0,0,.35),0 10px 30px rgba(0,0,0,.35)}}
+*{box-sizing:border-box}body{margin:0}
+.wrap{font-family:var(--sans);color:var(--ink);background:var(--bg);min-height:100vh;max-width:820px;margin:0 auto;padding:44px 20px 90px;-webkit-font-smoothing:antialiased}
+h1{font-size:30px;font-weight:850;letter-spacing:-.03em;margin:0}
+.sub{font-family:var(--mono);font-size:13px;color:var(--muted);margin:10px 0 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px}
+a.card{display:block;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--c);border-radius:15px;padding:18px 19px;box-shadow:var(--shadow);transition:transform .12s ease}
+a.card:hover{transform:translateY(-2px)}
+.ct{display:flex;align-items:center;gap:9px}.cd{width:10px;height:10px;border-radius:50%;background:var(--c)}
+.cn{font-size:17px;font-weight:750}
+.cx{font-size:13px;color:var(--muted);margin:7px 0 0;line-height:1.5}
+.stat{font-family:var(--mono);font-size:11px;color:var(--c);font-weight:700;margin-top:9px}
+footer{margin-top:30px;font-size:12px;color:var(--faint);line-height:1.6}
+@media(max-width:620px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Recruiting HQ</h1>
+  <p class="sub">Neal Parekh · PM + SWE internship command center · Summer 2027 cycle</p>
+  <div class="grid">
+    <a class="card" style="--c:#0d9488" href="pm.html">
+      <div class="ct"><span class="cd"></span><span class="cn">PM Pipeline</span></div>
+      <p class="cx">128 PM/APM-intern targets with apply links, cycle timeline, live-openings feed, playbook.</p>
+      <div class="stat">128 targets · rolling</div>
+    </a>
+    <a class="card" style="--c:#4f46e5" href="swe.html">
+      <div class="ct"><span class="cd"></span><span class="cn">SWE Pipeline</span></div>
+      <p class="cx">149 SWE-intern targets sorted easiest-LeetCode-first, F2026 → S2027, live scraper feed.</p>
+      <div class="stat">149 targets · easy-LC first</div>
+    </a>
+    <a class="card" style="--c:#6d28d9" href="resume-hq.html">
+      <div class="ct"><span class="cd"></span><span class="cn">Resume HQ</span></div>
+      <p class="cx">PM resume scoring engine — 9-dimension score, bullet doctor/builder, JD match, edge playbook.</p>
+      <div class="stat">scored on the top-5% bar</div>
+    </a>
+    <a class="card" style="--c:#be123c" href="interview-hq.html">
+      <div class="ct"><span class="cd"></span><span class="cn">Interview HQ</span></div>
+      <p class="cx">PM frameworks + your STAR story bank + 50 web-grounded company interview packs + mock drill.</p>
+      <div class="stat">50 company packs</div>
+    </a>
+    <a class="card" style="--c:#d97706" href="networking-hq.html">
+      <div class="ct"><span class="cd"></span><span class="cn">Networking HQ</span></div>
+      <p class="cx">Coffee-chat → referral engine. Contact pipeline, 7 stage-specific message templates, playbook.</p>
+      <div class="stat">referral-first</div>
+    </a>
+    <a class="card" style="--c:#059669" href="resources.html">
+      <div class="ct"><span class="cd"></span><span class="cn">Resources</span></div>
+      <p class="cx">Links + notes pulled by hand from outside sources (Instagram @zero2sudo and whatever else turns up).</p>
+      <div class="stat">manual, point-in-time</div>
+    </a>
+    <a class="card" style="--c:#334155" href="https://github.com/nealtheseal108/neal-pm-system">
+      <div class="ct"><span class="cd"></span><span class="cn">Source</span></div>
+      <p class="cx">The repo behind all of this — scrapers, fact ledger, per-company verified resumes, research.</p>
+      <div class="stat">neal-pm-system</div>
+    </a>
+  </div>
+  <footer>Static site on Render · data saved locally in your browser · verify each posting's term on the source before applying.</footer>
+</div>
+</body>
+</html>

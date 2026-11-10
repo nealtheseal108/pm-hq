@@ -1,0 +1,86 @@
+{
+  "_doc": "Manually curated links/notes pulled from external sources (currently: Instagram @zero2sudo Stories/Highlights). Re-check the source and append new entries here as they appear -- Stories are 24h-ephemeral, so this is a point-in-time snapshot, not a live feed. type is 'link' (real, clickable URL) or 'reference' (useful context with no extractable URL, usually because the source content is a screenshot rather than live HTML).",
+  "entries": [
+    {
+      "id": "r-1",
+      "type": "link",
+      "title": "HFT firm poaching more D.E. Shaw hardware specialists",
+      "description": "eFinancialCareers article on a hardware-engineering hiring trend at HFT/quant firms, surfaced in @zero2sudo's Story alongside a note about ASIC/Design Verification roles opening up at HRT and similar firms.",
+      "url": "https://www.efinancialcareers.com/news/a-hft-firm-poaching-more-d-e-shaw-hardware-specialists-and-allowing-remote-work",
+      "source": "Instagram @zero2sudo (Story)",
+      "dateAdded": "2026-08-01"
+    },
+    {
+      "id": "r-2",
+      "type": "reference",
+      "title": "Databricks intern & new-grad interview panel breakdown",
+      "description": "SWE Intern: Code (60m) -> Algorithms (60m) -> Behavioral (30m). Data Science Intern: DS Code+Fundamentals (60m) -> DS Code -> DS Fundamentals. PM Intern: PRD take-home -> PRD Deep Dive -> Product Deep Dive -> Databricks Deep Dive -> Behavioral (30m). New Grad SWE also includes a Systems Design & Architecture round (60m). Sourced from Databricks' own 'Brickfest' recruiting event, screenshotted -- no direct link, saved as reference for interview prep.",
+      "url": null,
+      "source": "Instagram @zero2sudo (Highlight: Insider Info)",
+      "dateAdded": "2026-08-01"
+    },
+    {
+      "id": "r-3",
+      "type": "reference",
+      "title": "Wells Fargo 2025 #ChangeMakers Summit -- recruiting program notes",
+      "description": "Wells Fargo runs 'Office Hours' every Mon/Thu 1-2pm ET during their ChangeMakers recruiting cycle. Applicants outside the Analytics & Data Program get a take-home assessment via email with a 5-day, non-resettable window. Selection process for the Summit itself runs in the first two weeks of September. Screenshotted email -- no direct application link captured.",
+      "url": null,
+      "source": "Instagram @zero2sudo (Highlight: Insider Info)",
+      "dateAdded": "2026-08-01"
+    },
+    {
+      "id": "r-4",
+      "type": "reference",
+      "title": "Tesla resume workshop AT UNC Chapel Hill \u2014 Wed Sep 16, 5:00 PM EST",
+      "description": "Tesla 'Supercharging Your Resume' virtual workshop for UNC Chapel Hill students, Wed Sept 16 at 5:00pm EST (your school \u2014 sign up via the Direct Consideration #004 issue). Other campuses: Purdue 9/8, Georgia Tech 9/21, Miami 10/23.",
+      "url": "https://directconsideration.beehiiv.com/p/direct-consideration-004",
+      "source": "Direct Consideration (zero2sudo) #004",
+      "dateAdded": "2026-09-03"
+    },
+    {
+      "id": "r-5",
+      "type": "reference",
+      "title": "Capital One added an 'agentic engineering' interview round",
+      "description": "Capital One's SWE process now includes a new agentic-engineering round (some reports say it replaced the traditional technical round). Task: connect an API to a frontend or fix a bug using agentic coding tools in JS; lighter version is one AI prompt ('how would you use AI here'). Prepare for both. Relevant: you're applying to Capital One.",
+      "url": "https://directconsideration.beehiiv.com/p/direct-consideration-004",
+      "source": "Direct Consideration (zero2sudo) #004",
+      "dateAdded": "2026-09-03"
+    },
+    {
+      "id": "r-6",
+      "type": "link",
+      "title": "New 2027 internships opened: Google, SpaceX, Disney, Mastercard, Honeywell +more",
+      "description": "#004 (Aug 31): SpaceX Spr/Summer 2027 (flexible sites); Google Summer 2027 BS/MS SWE (US+Canada) + PhD research; Disney Spring 2027 CS/CE (Lake Buena Vista); Mastercard SWE intern OA-free (O'Fallon/Arlington/Atlanta/NYC); Honeywell AI/ML + SWE (US citizens only \u2014 you qualify); DV Trading, BNY, Freddie Mac, GlossGenius, Zipline, QTS.",
+      "url": "https://directconsideration.beehiiv.com/p/direct-consideration-004",
+      "source": "Direct Consideration (zero2sudo) #004",
+      "dateAdded": "2026-09-03"
+    },
+    {
+      "id": "r-7",
+      "type": "link",
+      "title": "#003 (Aug 26): NVIDIA, Microsoft, Datadog opened new internships",
+      "description": "Direct Consideration #003 flagged fresh NVIDIA, Microsoft, and Datadog internship openings.",
+      "url": "https://directconsideration.beehiiv.com/p/direct-consideration-003",
+      "source": "Direct Consideration (zero2sudo) #003",
+      "dateAdded": "2026-09-03"
+    },
+    {
+      "id": "r-8",
+      "type": "reference",
+      "title": "Quant finals (Jane Street, Citadel) are END OF SEPTEMBER \u2014 quant recruiting moves early",
+      "description": "From @zero2sudo Insider Info 5 (1w ago): Jane Street and Citadel quant finals are all at the end of the month; quant recruiting opened back in February. If you're chasing quant/Jane Street, the timeline is much earlier than most expect.",
+      "url": "https://www.instagram.com/zero2sudo/",
+      "source": "Instagram @zero2sudo (Insider Info 5 Highlight)",
+      "dateAdded": "2026-09-03"
+    },
+    {
+      "id": "r-9",
+      "type": "reference",
+      "title": "Capital One Business Analyst = virtual job tryout + code signal",
+      "description": "From @zero2sudo Insider Info 4 (2w ago): Cap One BA (same umbrella) is a Virtual Job Tryout \u2014 a few work-style questions, then a 'code signal' ~12 questions long with probability + decision-based questions. No score reported; sounds like they opted out of scoring. Know what to expect if you apply.",
+      "url": "https://www.instagram.com/zero2sudo/",
+      "source": "Instagram @zero2sudo (Insider Info 4 Highlight)",
+      "dateAdded": "2026-09-03"
+    }
+  ]
+}
