@@ -646,28 +646,59 @@ window.PLAYBOOK_HTML = "<h2>PM Internship Recruiting Playbook \u2014 Summer 2027
     if (sec) sec.innerHTML = openHtml();
   });
 
-  // ---- manual status flips on Open Now / Just Opened rows: cycle the clickable pill through
-  // Applied -> Interviewing -> Offer -> Rejected -> (clear), persisted per-company in localStorage ----
+  // ---- manual status on Open Now / Just Opened rows: clicking the pill opens a small menu and
+  // the chosen status is applied in ONE click (2026-11-16, per Neal: the old click-to-cycle ring
+  // jumped straight to Applied, which folded the row away before he could reach Irrelevant).
+  // Persisted per-role in localStorage; "none" = explicit clear back to "+ Status". ----
+  var MENU_ORDER = ["applied", "interview", "offer", "accepted", "rejected", "irrelevant", "duplicate", "none"];
+  function closeStatMenu() { var m = document.getElementById("statMenu"); if (m) m.remove(); }
   app.addEventListener("click", function (e) {
-    var b = e.target.closest("button[data-costat]"); if (!b) return;
+    var pick = e.target.closest("button[data-setstat]");
+    if (pick) {
+      e.preventDefault();
+      openStat[pick.dataset.key] = pick.dataset.setstat;
+      saveOpenStat();
+      closeStatMenu();
+      ["open", "justopened"].forEach(function (id) {
+        var v = app.querySelector('.view[data-view="' + id + '"]');
+        if (v && v.classList.contains("on")) v.innerHTML = id === "justopened" ? justOpenedHtml() : openHtml();
+      });
+      return;
+    }
+    var b = e.target.closest("button[data-costat]");
+    if (!b) { if (!e.target.closest("#statMenu")) closeStatMenu(); return; }
     e.preventDefault();
     var key = b.dataset.costat;
-    var srv = "";
-    for (var i = 0; i < (openings || []).length; i++) {
-      var r = openings[i];
-      if (r.active !== false && roleKey(r) === key && r.applied) { srv = r.applied; break; }
-    }
-    // ring includes an explicit "none" step so you can cycle all the way back to "+ Status"
-    // from any state — Applied -> Interviewing -> Offer -> Rejected -> (+ Status) -> Applied ...
-    var o = openStat[key];
-    var eff = (o === "none") ? "none" : (o || srv || "");
-    var RING = ["applied", "interview", "offer", "accepted", "rejected", "irrelevant", "duplicate", "none"];
-    var cur = eff === "" ? "none" : eff;
-    openStat[key] = RING[(RING.indexOf(cur) + 1) % RING.length];   // "none" = explicit clear, shows "+ Status"
-    saveOpenStat();
-    var v = b.closest(".view");
-    if (v) v.innerHTML = v.dataset.view === "justopened" ? justOpenedHtml() : openHtml();
+    var already = document.getElementById("statMenu");
+    if (already && already.dataset.key === key) { closeStatMenu(); return; }
+    closeStatMenu();
+    var m = document.createElement("div");
+    m.id = "statMenu"; m.dataset.key = key;
+    m.style.cssText = "position:absolute;z-index:50;display:flex;flex-direction:column;gap:2px;padding:6px;"
+      + "background:var(--surface,#fff);border:1px solid var(--line,#ddd);border-radius:10px;box-shadow:var(--shadow,0 6px 20px rgba(0,0,0,.15));min-width:150px";
+    m.innerHTML = MENU_ORDER.map(function (s) {
+      var lab = s === "none" ? ["Clear status", "var(--muted,#888)"] : OS_LABEL[s];
+      return '<button data-setstat="' + s + '" data-key="' + esc(key) + '" style="text-align:left;border:0;background:transparent;'
+        + 'padding:6px 8px;border-radius:6px;cursor:pointer;font:inherit;color:' + lab[1] + '">' + lab[0] + "</button>";
+    }).join("");
+    document.body.appendChild(m);
+    var rc = b.getBoundingClientRect();
+    m.style.top = (window.scrollY + rc.bottom + 4) + "px";
+    m.style.left = Math.max(8, Math.min(window.scrollX + rc.left, window.scrollX + document.documentElement.clientWidth - m.offsetWidth - 8)) + "px";
   });
+  // the menu lives on document.body (outside `app`), so its own clicks need a document listener
+  document.addEventListener("click", function (e) {
+    var pick = e.target.closest("#statMenu button[data-setstat]");
+    if (!pick) { if (!e.target.closest("#statMenu") && !e.target.closest("button[data-costat]")) closeStatMenu(); return; }
+    openStat[pick.dataset.key] = pick.dataset.setstat;
+    saveOpenStat();
+    closeStatMenu();
+    ["open", "justopened"].forEach(function (id) {
+      var v = app.querySelector('.view[data-view="' + id + '"]');
+      if (v && v.classList.contains("on")) v.innerHTML = id === "justopened" ? justOpenedHtml() : openHtml();
+    });
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeStatMenu(); });
 
   // ---- Market Edges: copy a draft bullet/summary line straight to clipboard ----
   app.addEventListener("click", function (e) {
